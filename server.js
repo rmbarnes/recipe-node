@@ -13,6 +13,11 @@ const pool = new Pool({ connectionString: connectionString, ssl: true });
 app.use(express.json()) //supports json encoded bodies
     .use(express.urlencoded({extended:true}));
 
+app.user(express.static(path.join(__dirname, 'public')))
+    .set('views', path.join(__dirname, 'views'))
+    .set('view engine', 'ejs')
+    .get('/', (req, res) => res.render('pages/index'));
+
 app.get("/browse", controller.getAllRecipes);
 app.get("/user-recipes/:id", controller.getUserRecipes);
 app.post("/user-recipes/:id", controller.postRecipe);
