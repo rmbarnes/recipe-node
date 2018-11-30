@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const {Pool} = require('pg');
 const controller = require('./controller.js');
+const path = require('path');
 
 
 const PORT = process.env.PORT || 5000;
@@ -13,7 +14,7 @@ const pool = new Pool({ connectionString: connectionString, ssl: true });
 app.use(express.json()) //supports json encoded bodies
     .use(express.urlencoded({extended:true}));
 
-app.user(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public')))
     .set('views', path.join(__dirname, 'views'))
     .set('view engine', 'ejs')
     .get('/', (req, res) => res.render('pages/index'));
