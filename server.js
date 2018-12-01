@@ -1,15 +1,12 @@
 const express = require('express');
 const app = express();
-const {Pool} = require('pg');
 const controller = require('./controller.js');
 const path = require('path');
 
 
 const PORT = process.env.PORT || 5000;
 
-const connectionString = process.env.DATABASE_URL || `postgres://pamlygubwcrqjl:7bb1cc73a10b01a55e38d7eb1436b11ac7aec9272ba5ae23284e820c8d01a8c0@ec2-54-225-110-156.compute-1.amazonaws.com/d4mu70t11254se`;
 
-const pool = new Pool({ connectionString: connectionString, ssl: true });
 
 app.use(express.json()) //supports json encoded bodies
     .use(express.urlencoded({extended:true}));

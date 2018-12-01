@@ -24,9 +24,9 @@ function getRecipesFromDB(callback) {
 
 // GET user's recipes from DB
 function getUserRecipesFromDB(id, callback) {
-    console.log("getting user " + " list of recipes");
+    console.log("getting user " + id + " list of recipes");
 
-    var sql = "SELECT recipe_name, ingredients FROM recipe WHERE user_id = $1::int";
+    var sql = "SELECT id, recipe_name, ingredients FROM recipe WHERE user_id = $1::int";
 
     var params = [id];
 
@@ -38,7 +38,6 @@ function getUserRecipesFromDB(id, callback) {
         else {
             console.log("result: " + res);
             console.log("error: " + err);
-            console.log(JSON.stringify(res.rows));
             callback(null, res.rows);
         }
     });
