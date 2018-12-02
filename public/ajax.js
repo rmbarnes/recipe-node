@@ -17,7 +17,7 @@ function allRecipes() {
                 console.log(results[0]);
 
                 results.map(recipe => {
-                    recipeDiv.innerHTML += '<li class="list-group-item" style="display: flex; justify-content: space-between">' + recipe.recipe_name + '</li>';
+                    recipeDiv.innerHTML += '<li class="list-group-item" style="display: flex; justify-content: space-between">' + recipe.recipe_name + '<button type="button" onclick="editRecipe(\'' + recipe.id + '\')" class="btn btn-success float-right">Edit</button></li>';
                 });
             } else {
                 console.log('Error: ' + xhr.status);
