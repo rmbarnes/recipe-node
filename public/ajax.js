@@ -17,9 +17,7 @@ function allRecipes() {
                 console.log(results[0]);
 
                 results.map(recipe => {
-                    recipeDiv.innerHTML += '<div>' + recipe.recipe_name;
-
-                    recipeDiv.innerHTML += '<button type="button" onclick="editRecipe(\'' + recipe.id + '\')" class="btn btn-success float-right">Edit</button></div>';
+                    recipeDiv.innerHTML += '<li class="list-group-item" style="display: flex; justify-content: space-between">' + recipe.recipe_name + '<button type="button" onclick="editRecipe(\'' + recipe.id + '\')" class="btn btn-success float-right">Edit</button></li>';
                 });
             } else {
                 console.log('Error: ' + xhr.status);
@@ -47,7 +45,7 @@ function userRecipes() {
 
                 recipeDiv.innerHTML = "<ul class='list-group'>";
                 results.map(recipe => {
-                    recipeDiv.innerHTML += '<li class="list-group-item d-flex justify-content-between align-items-center">' + recipe.recipe_name + '<button type="button" onclick="editRecipe(\'' + recipe.id + '\')" class="btn btn-success">Edit</button></li>';
+                    recipeDiv.innerHTML += '<li class="list-group-item" style="display: flex; justify-content: space-between">' + recipe.recipe_name + '<button type="button" onclick="editRecipe(\'' + recipe.id + '\')" class="btn btn-success">Edit</button></li>';
                 });
                 results.innerHTML += "</ul>";
             } else {
