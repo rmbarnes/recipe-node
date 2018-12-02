@@ -15,9 +15,9 @@ function allRecipes() {
                 var results = JSON.parse(xhr.responseText);
 
                 console.log(results[0]);
-
+                recipeDiv.innerHTML = "<ul class='list-group'>";
                 results.map(recipe => {
-                    recipeDiv.innerHTML += '<li class="list-group-item" style="display: flex; justify-content: space-between">' + recipe.recipe_name + '<button type="button" onclick="editRecipe(\'' + recipe.id + '\')" class="btn btn-success float-right">Edit</button></li>';
+                    recipeDiv.innerHTML += '<li class="list-group-item" style="display: flex; justify-content: space-between">' + recipe.recipe_name + '<button type="button" onclick="editRecipe(\'' + recipe.id + '\')" class="btn btn-success float-right">Edit</button></li></ul>';
                 });
             } else {
                 console.log('Error: ' + xhr.status);
@@ -45,9 +45,8 @@ function userRecipes() {
 
                 recipeDiv.innerHTML = "<ul class='list-group'>";
                 results.map(recipe => {
-                    recipeDiv.innerHTML += '<li class="list-group-item" style="display: flex; justify-content: space-between">' + recipe.recipe_name + '<button type="button" onclick="editRecipe(\'' + recipe.id + '\')" class="btn btn-success">Edit</button></li>';
+                    recipeDiv.innerHTML += '<li class="list-group-item" style="display: flex; justify-content: space-between">' + recipe.recipe_name + '<button type="button" onclick="editRecipe(\'' + recipe.id + '\')" class="btn btn-success">Edit</button></li></ul>';
                 });
-                results.innerHTML += "</ul>";
             } else {
                 console.log('Error: ' + xhr.status);
             }
