@@ -1,6 +1,16 @@
 'use strict';
 //const bcrypt = require('bcrypt');
 
+function clientLogin() {
+    let username = document.getElementById('username').value;
+    let password = document.getElementById('password').value;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/login');
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send("username=" + username + "&password=" + password);
+}
+
 function allRecipes() {
     let recipeDiv = document.getElementById('recipes'); // var results
 

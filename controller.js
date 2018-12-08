@@ -1,8 +1,37 @@
 const model = require('./model.js')
 
+function renderLoginPage(req, res) {
+    console.log("on the login page");
+    res.render('pages/login');
+}
+
 //login the user
 function login(req, response) {
-//    model.
+
+    model.loginFromDB(req, response, function(err, result) {
+        if (err || result == null) {
+            response.status(500).json({success: false, data: err});
+        } else {
+
+            console.log(result[0].username);
+
+
+            var success = {success: false};
+
+            if (req.body.username == result[0].username && req.body.password == result[0].password)
+            {
+                req.session.user = req.body.username;
+                return response.writeHead(302, {
+                    'Location': '/'
+                });
+                response.end();
+            }
+            else {
+                success = {success: false};
+            }
+
+        }
+    });
 }
 
 //get All Recipes
@@ -74,6 +103,8 @@ function deleteRecipe(req, response) {
 
 
 module.exports = {
+    login: login,
+    renderLoginPage: renderLoginPage,
     getAllRecipes: getAllRecipes,
     getUserRecipes: getUserRecipes,
     postRecipe: postRecipe,

@@ -4,6 +4,24 @@ const connectionString = process.env.DATABASE_URL || `postgres://pamlygubwcrqjl:
 
 const pool = new Pool({ connectionString: connectionString, ssl: true });
 
+//Login
+function loginFromDB(req, res, callback) {
+    var sql = "SELECT username, password FROM users WHERE username = $1";
+
+    var params = [req.body.username];
+
+    pool.query(sql, params, function(err, res) {
+        if (err) {
+            console.log("error: " + err);
+            callback(err, null);
+        }
+        else {
+            console.log("result: " + res);
+            callback(null, res.rows);
+        }
+    })
+}
+
 // GET all recipes from DB
 function getRecipesFromDB(callback) {
     console.log("getting recipes from db");
@@ -106,6 +124,7 @@ function deleteRecipeFromDB(recipeId, callback) {
 }
 
 module.exports = {
+    loginFromDB: loginFromDB,
     getRecipesFromDB: getRecipesFromDB,
     getUserRecipesFromDB: getUserRecipesFromDB,
     postRecipeToDB: postRecipeToDB,
