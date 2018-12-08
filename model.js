@@ -16,7 +16,7 @@ function loginFromDB(req, res, callback) {
             callback(err, null);
         }
         else {
-            console.log("result: " + res);
+            console.log("result: " , res);
             callback(null, res.rows);
         }
     })
@@ -26,14 +26,13 @@ function loginFromDB(req, res, callback) {
 function getRecipesFromDB(callback) {
     console.log("getting recipes from db");
 
-    var sql = "SELECT recipe_name FROM recipe";
+    var sql = "SELECT id, recipe_name FROM recipe";
 
     pool.query(sql, function(err, res) {
         if (err) {
             callback(err, null);
         }
         else {
-            console.log(JSON.stringify(res.rows));
             callback(null, res.rows);
         }
     });
@@ -52,8 +51,6 @@ function getUserRecipesFromDB(id, callback) {
             callback(err, null);
         }
         else {
-            console.log("result: " + res);
-            console.log("error: " + err);
             callback(null, res.rows);
         }
     });
@@ -71,8 +68,6 @@ function postRecipeToDB(userId, req, callback) {
             callback(err, null);
         }
         else {
-            console.log("result: " + res);
-            console.log(JSON.stringify(res.rows));
             callback(null, res.rows);
         }
     });
@@ -87,13 +82,10 @@ function updateRecipeToDB(recipeId, req, callback) {
     var params = [recipeId, req.body.recipe_name, req.body.ingredients];
 
     pool.query(sql, params, function(err, res) {
-        console.log("res: " + res);
         if (err) {
             callback(err, null);
         }
         else {
-            console.log("result: " + res);
-            console.log(JSON.stringify(res.rows));
             callback(null, res.rows);
         }
     });
@@ -111,8 +103,6 @@ function deleteRecipeFromDB(recipeId, callback) {
             callback(err, null);
         }
         else {
-            console.log("result: " + res);
-            console.log(JSON.stringify(res.rows));
             callback(null, res.rows);
         }
     });
@@ -130,8 +120,6 @@ function getRecipeDetailsFromDB(id, callback) {
             callback(err, null);
         }
         else {
-            console.log("result: " + res);
-            console.log("error: " + err);
             callback(null, res.rows);
         }
     });

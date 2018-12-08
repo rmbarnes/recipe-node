@@ -19,3 +19,30 @@
     border-radius: 4px;
 
 }
+
+.form-label-group {
+    margin-bottom: 15px;
+}
+
+.buttons {
+    display: flex;
+    align-content: space-around;
+    padding-left: 10px;
+}
+
+.buttons>button {
+    margin-right: 10px;
+}
+
+.jumbotron.text-center {
+    background-image: url("/hermes-rivera-258743-unsplash.jpeg");
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 75px;
+}

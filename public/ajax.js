@@ -1,18 +1,41 @@
 'use strict';
 //const bcrypt = require('bcrypt');
 
+function loginPage() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/login', true);
+    xhr.send();
+}
+
 function clientLogin() {
     let username = document.getElementById('username').value;
     let password = document.getElementById('password').value;
 
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/login');
+    xhr.open('POST', '/login', true);
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send("username=" + username + "&password=" + password);
+
+    xhr.onreadystatechange = function () {
+        let DONE = 4;
+        let OK = 200;
+        if (xhr.readyState === DONE) {
+            if (xhr.status === OK) {
+                console.log("HELLO!! " + xhr)
+
+            } else {
+                console.log('Error: ' + xhr.status);
+            }
+        }
+    };
+
 }
 
 function allRecipes() {
     let recipeDiv = document.getElementById('recipes'); // var results
+
+    let detailDiv = document.getElementById('details'); // var results
+    detailDiv.style.display = "none";
 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/browse');
@@ -28,7 +51,7 @@ function allRecipes() {
                 console.log(results[0]);
                 recipeDiv.innerHTML = "<ul class='list-group'>";
                 results.map(recipe => {
-                    recipeDiv.innerHTML += '<li class="list-group-item">' + recipe.recipe_name + '</li></ul>';
+                    recipeDiv.innerHTML += '<li class="list-group-item">' + recipe.recipe_name + '<button type="button" onclick="viewDetails(this.id)" class="btn btn-primary" id="' + recipe.id + '">Details</button></li></ul>';
                 });
             } else {
                 console.log('Error: ' + xhr.status);
@@ -56,7 +79,7 @@ function userRecipes() {
 
                 recipeDiv.innerHTML = "<ul class='list-group'>";
                 results.map(recipe => {
-                    recipeDiv.innerHTML += '<li class="list-group-item">' + recipe.recipe_name + '<button type="button" onclick="viewDetails(this.id)" class="btn btn-primary" id="' + recipe.id + '">Details</button><button type="button" onclick="openEditRecipe(this.id)" class="btn btn-success" id="' + recipe.id + '">Edit</button><button type="button" onclick="deleteRecipe(this.id)" class="btn btn-danger" id="' + recipe.id + '">Delete</button></li></ul>';
+                    recipeDiv.innerHTML += '<li class="list-group-item">' + recipe.recipe_name + '<div class="buttons"><button type="button" onclick="viewDetails(this.id)" class="btn btn-primary" id="' + recipe.id + '">Details</button><button type="button" onclick="openEditRecipe(this.id)" class="btn btn-success" id="' + recipe.id + '">Edit</button><button type="button" onclick="deleteRecipe(this.id)" class="btn btn-danger" id="' + recipe.id + '">Delete</button></div></li></ul>';
                 });
             } else {
                 console.log('Error: ' + xhr.status);
