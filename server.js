@@ -15,11 +15,13 @@ app.use(express.static(path.join(__dirname, "/public/")))
     .set('view engine', 'ejs')
     .get('/', (req, res) => res.render('pages/index'));
 
+//app.get("/", controller.login);
+
 app.get("/browse", controller.getAllRecipes);
 app.get("/user-recipes/:id", controller.getUserRecipes);
 app.post("/user-recipes/:id", controller.postRecipe);
-app.put("/user-recipe/:id", controller.updateRecipe);
-app.delete("/user-recipe/:id", controller.deleteRecipe);
+app.put("/user-recipes/:id", controller.updateRecipe);
+app.delete("/user-recipes/:id", controller.deleteRecipe);
 
 
 app.listen(PORT, function() {

@@ -1,5 +1,10 @@
 const model = require('./model.js')
 
+//login the user
+function login(req, response) {
+//    model.
+}
+
 //get All Recipes
 function getAllRecipes(req, response) {
 
