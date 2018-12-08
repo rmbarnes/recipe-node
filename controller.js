@@ -77,7 +77,6 @@ function postRecipe(req, response) {
 
 function updateRecipe(req, response) {
     var recipeId = req.params.id;
-    console.log("recipeId: " + recipeId);
 
     model.updateRecipeToDB(recipeId, req, function(err, result) {
         if (err || result == null) {
@@ -101,6 +100,17 @@ function deleteRecipe(req, response) {
     });
 }
 
+function getRecipeDetails(req, response) {
+    var id = req.params.id;
+
+    model.getRecipeDetailsFromDB(id, function(err, result) {
+        if (err || result == null) {
+            response.status(500).json({success: false, data: err});
+        } else {
+            response.status(200).json(result);
+        }
+    });
+}
 
 module.exports = {
     login: login,
@@ -109,5 +119,6 @@ module.exports = {
     getUserRecipes: getUserRecipes,
     postRecipe: postRecipe,
     updateRecipe: updateRecipe,
-    deleteRecipe: deleteRecipe
+    deleteRecipe: deleteRecipe,
+    getRecipeDetails: getRecipeDetails
 };

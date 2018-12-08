@@ -56,7 +56,7 @@ function userRecipes() {
 
                 recipeDiv.innerHTML = "<ul class='list-group'>";
                 results.map(recipe => {
-                    recipeDiv.innerHTML += '<li class="list-group-item">' + recipe.recipe_name + '<button type="button" onclick="editRecipe(this.id)" class="btn btn-success" id="' + recipe.id + '">Edit</button><button type="button" onclick="deleteRecipe(this.id)" class="btn btn-danger" id="' + recipe.id + '">Delete</button></li></ul>';
+                    recipeDiv.innerHTML += '<li class="list-group-item">' + recipe.recipe_name + '<button type="button" onclick="viewDetails(this.id)" class="btn btn-primary" id="' + recipe.id + '">Details</button><button type="button" onclick="openEditRecipe(this.id)" class="btn btn-success" id="' + recipe.id + '">Edit</button><button type="button" onclick="deleteRecipe(this.id)" class="btn btn-danger" id="' + recipe.id + '">Delete</button></li></ul>';
                 });
             } else {
                 console.log('Error: ' + xhr.status);
@@ -64,6 +64,7 @@ function userRecipes() {
         }
     };
 }
+
 
 function addRecipe() {
 
@@ -99,6 +100,60 @@ function addRecipe() {
     };
 }
 
+function openEditRecipe(id) {
+    console.log("editing recipe: " + id);
+    let detailDiv = document.getElementById('details'); // var results
+    detailDiv.style.display = "block"; // show the detail div
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/recipe-details/' + id);
+    xhr.send();
+
+    xhr.onreadystatechange = function () {
+        let DONE = 4;
+        let OK = 200;
+        if (xhr.readyState === DONE) {
+            if (xhr.status === OK) {
+                var results = JSON.parse(xhr.responseText);
+                console.log(results[0]);
+
+                results.map(recipe => {
+                    detailDiv.innerHTML = "<div class='form-row'><div class='form-group'><label for='newRecipeTitle'>Recipe Name: </label><input type='text' class='form-control' id='newRecipeTitle' name='newRecipeTitle' value='"+ recipe.recipe_name + "'></div></div><div class='form-row'><div class='form-group'><label for='newIngredients'>Ingredients: </label><textarea class='form-control' id='newIngredients' name='newIngredients' rows='6' placeholder=''>" + recipe.ingredients + "</textarea></div></div><button class='btn btn-success' onclick='editRecipe("+recipe.id+")'>Save</button>";
+                });
+
+            }
+        }
+    }
+
+}
+
+function editRecipe(id) {
+    let detailDiv = document.getElementById('details'); // the div for the form
+
+    let recipeName = document.getElementById("newRecipeTitle").value;
+    let ingredients = document.getElementById('newIngredients').value;
+
+//    let detailDiv = document.getElementById('details'); // var results
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('PUT', '/user-recipes/' + id);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send("recipe_name=" + recipeName + "&ingredients=" + ingredients);
+
+    xhr.onreadystatechange = function () {
+        let DONE = 4;
+        let OK = 200;
+        if (xhr.readyState === DONE) {
+            if (xhr.status === OK) {
+                var results = JSON.parse(xhr.responseText);
+                console.log(results[0]);
+                userRecipes();
+                details.style.display = "none"; // hide the form again
+
+            }
+        }
+    }
+}
+
 function deleteRecipe(id) {
     console.log("deleting the recipe..");
 
@@ -127,4 +182,29 @@ function deleteRecipe(id) {
             }
         }
     };
+}
+
+function viewDetails(id) {
+    let detailDiv = document.getElementById('details'); // var results
+    detailDiv.style.display = "block"; // show the detail div
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/recipe-details/' + id);
+    xhr.send();
+
+    xhr.onreadystatechange = function () {
+        let DONE = 4;
+        let OK = 200;
+        if (xhr.readyState === DONE) {
+            if (xhr.status === OK) {
+                var results = JSON.parse(xhr.responseText);
+                console.log(results[0]);
+
+                results.map(recipe => {
+                    detailDiv.innerHTML = "<div class='list-group details'><h4 class='list-group-item-heading'>"+ recipe.recipe_name + "</h4><div class='list-group-item-text'>" + recipe.ingredients + "</div></div>";
+                });
+
+            }
+        }
+    }
 }

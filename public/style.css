@@ -6,3 +6,16 @@
     display: flex;
     justify-content: space-between;
 }
+
+#nav.navbar.navbar-default.navbar-static-top.navbar-inverse {
+    margin-bottom: 0px;
+}
+
+#details {
+    display: none;
+    margin-top: 15px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 4px;
+
+}

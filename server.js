@@ -28,6 +28,7 @@ app.post("/login", controller.login);
 //app.post("/logout", logout);
 app.get("/browse", controller.getAllRecipes);
 app.get("/user-recipes/:id", controller.getUserRecipes);
+app.get("/recipe-details/:id", controller.getRecipeDetails);
 app.post("/user-recipes/:id", controller.postRecipe);
 app.put("/user-recipes/:id", controller.updateRecipe);
 app.delete("/user-recipes/:id", controller.deleteRecipe);

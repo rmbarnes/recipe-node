@@ -30,7 +30,6 @@ function getRecipesFromDB(callback) {
 
     pool.query(sql, function(err, res) {
         if (err) {
-            console.log("error: " + err);
             callback(err, null);
         }
         else {
@@ -50,7 +49,6 @@ function getUserRecipesFromDB(id, callback) {
 
     pool.query(sql, params, function(err, res) {
         if (err) {
-            console.log("error: " + err);
             callback(err, null);
         }
         else {
@@ -70,7 +68,6 @@ function postRecipeToDB(userId, req, callback) {
 
     pool.query(sql, params, function(err, res) {
         if (err) {
-            console.log("error: " + err);
             callback(err, null);
         }
         else {
@@ -85,14 +82,13 @@ function postRecipeToDB(userId, req, callback) {
 function updateRecipeToDB(recipeId, req, callback) {
     console.log("updating recipe: " + recipeId);
 
-    var sql = "UPDATE recipe SET(recipe_name, ingredients, category) = ($2, $3, $4) WHERE id = $1";
+    var sql = "UPDATE recipe SET(recipe_name, ingredients) = ($2, $3) WHERE id = $1";
 
-    var params = [recipeId, req.body.recipe_name, req.body.ingredients, req.body.category];
+    var params = [recipeId, req.body.recipe_name, req.body.ingredients];
 
     pool.query(sql, params, function(err, res) {
         console.log("res: " + res);
         if (err) {
-            console.log("error: " + err);
             callback(err, null);
         }
         else {
@@ -112,12 +108,30 @@ function deleteRecipeFromDB(recipeId, callback) {
 
     pool.query(sql, params, function(err, res) {
         if (err) {
-            console.log("error: " + err);
             callback(err, null);
         }
         else {
             console.log("result: " + res);
             console.log(JSON.stringify(res.rows));
+            callback(null, res.rows);
+        }
+    });
+}
+
+function getRecipeDetailsFromDB(id, callback) {
+    console.log("getting recipe details for: " + id);
+
+    var sql = "SELECT id, recipe_name, ingredients FROM recipe WHERE id = $1::int";
+
+    var params = [id];
+
+    pool.query(sql, params, function(err, res) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            console.log("result: " + res);
+            console.log("error: " + err);
             callback(null, res.rows);
         }
     });
@@ -129,5 +143,6 @@ module.exports = {
     getUserRecipesFromDB: getUserRecipesFromDB,
     postRecipeToDB: postRecipeToDB,
     updateRecipeToDB: updateRecipeToDB,
-    deleteRecipeFromDB: deleteRecipeFromDB
+    deleteRecipeFromDB: deleteRecipeFromDB,
+    getRecipeDetailsFromDB: getRecipeDetailsFromDB
 };
