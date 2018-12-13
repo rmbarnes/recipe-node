@@ -6,7 +6,15 @@
 
     <body>
 
-        <% include ../partials/nav.ejs %>
+        <nav style="margin-bottom:0px;" class="navbar navbar-default navbar-static-top navbar-inverse">
+            <div class="container">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
         <div class="jumbotron text-center">
             <div class="container">
                 <h1>Welcome to Recipe Tracker</h1>
@@ -14,18 +22,18 @@
         </div>
         <div class="container">
             <div class="row">
-                <form class="form-signin">
+                <form class="form-signin" method="post" action="/login">
                     <div class="col-md-6">
                     <div class="form-label-group my-2">
                         <label for="username">Username</label>
-                        <input type="text" id="username" class="form-control" placeholder="Username" required="" autofocus="">
+                        <input type="text" id="username" class="form-control" placeholder="Username" required="" autofocus="" name="username">
                     </div>
 
                     <div class="form-label-group my-2">
                         <label for="password">Password</label>
-                        <input type="password" id="password" class="form-control" placeholder="Password" required="">
+                        <input type="password" id="password" class="form-control" placeholder="Password" required="" name="password">
                     </div>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit" onclick="clientLogin()">Sign in</button>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
                     </div>
                 </form>
             </div>

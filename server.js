@@ -13,18 +13,17 @@ app.use(express.json()) //supports json encoded bodies
 app.use(session({
     secret: 'coolcat',
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true}
+    saveUninitialized: true
 }));
 
 app.use(express.static(path.join(__dirname, "/public/")))
     .set('views', path.join(__dirname, 'views'))
     .set('view engine', 'ejs')
-    .get('/', (req, res) => res.render('pages/index'));
+    .get('/', controller.verifyLogin, (req, res) => res.render('pages/index')); // add controller.verifyLogin ?
 
 app.get("/login", (req, res) => res.render('pages/login'));
 app.post("/login", controller.login);
-//app.post("/logout", logout);
+app.post("/logout", controller.logout);
 app.get("/browse", controller.getAllRecipes);
 app.get("/user-recipes/:id", controller.getUserRecipes);
 app.get("/recipe-details/:id", controller.getRecipeDetails);
@@ -36,3 +35,12 @@ app.delete("/user-recipes/:id", controller.deleteRecipe);
 app.listen(PORT, function() {
     console.log("Server is listening on port " + PORT);
 });
+
+
+//npm instsall
+//require
+//bcrypt.hash or whatever
+
+
+// clear the list of recipes if you click on view recipes again
+//if you login with incorrect info, then send a message

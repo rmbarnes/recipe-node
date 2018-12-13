@@ -1,53 +1,59 @@
 const model = require('./model.js')
 
-function renderLoginPage(req, res) {
-//    console.log("on the login page");
-//    res.writeHead(302, {
-//        'Location': '/'
-//    });
-//    res.end();
-}
-
-function renderHome(req, res) {
-    console.log("on the home page");
-    res.redirect('/');
-}
-
 //login the user
 function login(req, response) {
+    var username = req.body.username;
+    var password = req.body.password;
+    var successStatus = {success: false};
 
-    model.loginFromDB(req, response, function (err, result) {
+    model.loginFromDB(username, password, function (err, result) {
         if (err || result == null) {
             response.status(500).json({
                 success: false,
                 data: err
             });
         } else {
-
-            var success = {
-                success: false
-            };
-
-            if (req.body.username == result[0].username && req.body.password == result[0].password) {
-                req.session.user = req.body.username;
-                console.log('session user: ' + req.session.user);
-
-                response.status(200).json(result);
-
-
-//                response.writeHead(302, {
-//                    'Location': '/'
-//                });
-//                response.end();
-//                renderHome(req, response);
-            } else {
-                success = {
-                    success: false
-                };
+            if (result == false) {
+                response.writeHead(302, {
+                    'Location': '/login'
+                });
+                response.end();
             }
-
+            else {
+                req.session.user = result.username;
+                req.session.userId = result.id;
+                console.log('session user: ' + req.session.user);
+                successStatus = {success: true};
+                response.writeHead(302, {
+                    'Location': '/'
+                });
+                response.end();
+            }
         }
     });
+}
+
+//middleware function to verify login
+function verifyLogin(req, response, next) {
+    if (req.session.user) {
+        next();
+    }
+    else {
+        var result = {success: false};
+        response.redirect('/login');
+    }
+}
+
+function logout(req, response) {
+    if (req.session.user) {
+
+        req.session.destroy();
+        //navigate to login page
+        response.writeHead(302, {
+            'Location': '/login'
+        });
+        response.end();
+    }
 }
 
 //get All Recipes
@@ -68,7 +74,7 @@ function getAllRecipes(req, response) {
 
 // get user's recipes
 function getUserRecipes(req, response) {
-    var id = req.params.id;
+    var id = req.session.userId;
 
     model.getUserRecipesFromDB(id, function (err, result) {
         if (err || result == null) {
@@ -84,9 +90,7 @@ function getUserRecipes(req, response) {
 
 //post a new recipe
 function postRecipe(req, response) {
-    var userId = req.params.id;
-
-    console.log("userId: " + userId);
+    var userId = req.session.userId;
 
     model.postRecipeToDB(userId, req, function (err, result) {
         if (err || result == null) {
@@ -148,7 +152,8 @@ function getRecipeDetails(req, response) {
 
 module.exports = {
     login: login,
-    renderLoginPage: renderLoginPage,
+    logout: logout,
+    verifyLogin: verifyLogin,
     getAllRecipes: getAllRecipes,
     getUserRecipes: getUserRecipes,
     postRecipe: postRecipe,

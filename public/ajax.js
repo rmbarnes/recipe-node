@@ -1,11 +1,11 @@
 'use strict';
 //const bcrypt = require('bcrypt');
 
-function loginPage() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/login', true);
-    xhr.send();
-}
+//function loginPage() {
+//    var xhr = new XMLHttpRequest();
+//    xhr.open('GET', '/login', true);
+//    xhr.send();
+//}
 
 function clientLogin() {
     let username = document.getElementById('username').value;
@@ -29,6 +29,12 @@ function clientLogin() {
         }
     };
 
+}
+
+function logout() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/logout', true);
+    xhr.send();
 }
 
 function allRecipes() {
@@ -63,6 +69,8 @@ function allRecipes() {
 function userRecipes() {
     let userId = 2; //get this id somehow
     let recipeDiv = document.getElementById('recipes'); // var results
+    let detailDiv = document.getElementById('details'); // var results
+    detailDiv.style.display = "none";
 
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/user-recipes/' + userId);
@@ -90,14 +98,9 @@ function userRecipes() {
 
 
 function addRecipe() {
-
-    console.log("adding the recipe..");
-
     let recipeName = document.getElementById("recipeTitle").value;
     let ingredients = document.getElementById('ingredients').value;
 
-    console.log('Recipe Name: ' + recipeName);
-    console.log('ingredients: ' + ingredients);
     let recipeDiv = document.getElementById('recipes');
 
     var xhr = new XMLHttpRequest();
@@ -112,8 +115,8 @@ function addRecipe() {
         if (xhr.readyState === DONE) {
             if (xhr.status === OK) {
                 var results = JSON.parse(xhr.responseText);
-
-                console.log("result: " + results);
+                document.getElementById("recipeTitle").value = "";
+                document.getElementById('ingredients').value = "";
                 userRecipes();
 
             } else {

@@ -46,3 +46,11 @@
     background-size: cover;
     padding: 75px;
 }
+
+.someButton {
+    background-color: #222;
+    color: white;
+    border: none;
+/*    margin-top: 13px;*/
+    padding: 15px 0 13px 15px;
+}

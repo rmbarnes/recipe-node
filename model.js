@@ -5,10 +5,10 @@ const connectionString = process.env.DATABASE_URL || `postgres://pamlygubwcrqjl:
 const pool = new Pool({ connectionString: connectionString, ssl: true });
 
 //Login
-function loginFromDB(req, res, callback) {
-    var sql = "SELECT username, password FROM users WHERE username = $1";
+function loginFromDB(username, password, callback) {
+    var sql = "SELECT id, username, password FROM users WHERE username = $1";
 
-    var params = [req.body.username];
+    var params = [username];
 
     pool.query(sql, params, function(err, res) {
         if (err) {
@@ -16,8 +16,23 @@ function loginFromDB(req, res, callback) {
             callback(err, null);
         }
         else {
-            console.log("result: " , res);
-            callback(null, res.rows);
+
+            // We got something back from the DB matching that username
+            // check to see if it's just one row (0 means no username in db)
+            // more than 1 is bad...
+            if (res.rows.length != 1) {
+                console.log("error in finding user");
+            }
+            else {
+                // verify the password on that row matches the one they
+                // used
+                if (password == res.rows[0].password) {
+                    callback(null, res.rows[0]);
+                }
+                else {
+                    callback(null, false);
+                }
+            }
         }
     })
 }
@@ -57,8 +72,6 @@ function getUserRecipesFromDB(id, callback) {
 }
 
 function postRecipeToDB(userId, req, callback) {
-    console.log("posting recipe for user: " + userId);
-
     var sql = "INSERT INTO recipe(user_id, recipe_name, ingredients, category) VALUES($1, $2, $3, $4)";
 
     var params = [userId, req.body.recipe_name, req.body.ingredients, req.body.category];
