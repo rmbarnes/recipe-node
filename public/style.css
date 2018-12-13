@@ -49,8 +49,11 @@
 
 .someButton {
     background-color: #222;
-    color: white;
+    color: gray;
     border: none;
 /*    margin-top: 13px;*/
     padding: 15px 0 13px 15px;
+}
+.someButton:hover {
+    color: white;
 }
