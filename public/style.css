@@ -57,3 +57,7 @@
 .someButton:hover {
     color: white;
 }
+
+.msg {
+    display: none;
+}

@@ -21,6 +21,7 @@ app.use(express.static(path.join(__dirname, "/public/")))
     .set('view engine', 'ejs')
     .get('/', controller.verifyLogin, (req, res) => res.render('pages/index')); // add controller.verifyLogin ?
 
+app.post("/createAccount", controller.createAccount);
 app.get("/login", (req, res) => res.render('pages/login'));
 app.post("/login", controller.login);
 app.post("/logout", controller.logout);

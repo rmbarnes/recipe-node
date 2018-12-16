@@ -1,5 +1,28 @@
 const model = require('./model.js')
 
+function createAccount(req, response) {
+
+    model.createAccountInDB(req, function (err, result) {
+        if (err || result == null) {
+            response.status(500).json({
+                success: false,
+                data: err
+            });
+        } else {
+            if (result == false) {
+                response.redirect('/login?e=' + 'err');
+            }
+            else {
+                successStatus = {success: true};
+                response.writeHead(302, {
+                    'Location': '/'
+                });
+                response.end();
+            }
+        }
+    });
+}
+
 //login the user
 function login(req, response) {
     var username = req.body.username;
@@ -14,10 +37,7 @@ function login(req, response) {
             });
         } else {
             if (result == false) {
-                response.writeHead(302, {
-                    'Location': '/login'
-                });
-                response.end();
+                response.redirect('/login?e=' + 'err');
             }
             else {
                 req.session.user = result.username;
@@ -44,6 +64,7 @@ function verifyLogin(req, response, next) {
     }
 }
 
+// handle logout functionality
 function logout(req, response) {
     if (req.session.user) {
 
@@ -151,6 +172,7 @@ function getRecipeDetails(req, response) {
 }
 
 module.exports = {
+    createAccount: createAccount,
     login: login,
     logout: logout,
     verifyLogin: verifyLogin,

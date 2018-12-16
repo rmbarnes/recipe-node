@@ -1,36 +1,6 @@
 'use strict';
 //const bcrypt = require('bcrypt');
 
-//function loginPage() {
-//    var xhr = new XMLHttpRequest();
-//    xhr.open('GET', '/login', true);
-//    xhr.send();
-//}
-
-function clientLogin() {
-    let username = document.getElementById('username').value;
-    let password = document.getElementById('password').value;
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/login', true);
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.send("username=" + username + "&password=" + password);
-
-    xhr.onreadystatechange = function () {
-        let DONE = 4;
-        let OK = 200;
-        if (xhr.readyState === DONE) {
-            if (xhr.status === OK) {
-                console.log("HELLO!! " + xhr)
-
-            } else {
-                console.log('Error: ' + xhr.status);
-            }
-        }
-    };
-
-}
-
 function logout() {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/logout', true);
@@ -95,7 +65,6 @@ function userRecipes() {
         }
     };
 }
-
 
 function addRecipe() {
     let recipeName = document.getElementById("recipeTitle").value;

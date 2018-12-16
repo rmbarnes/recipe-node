@@ -1,29 +1,34 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <% include ../partials/header.ejs %>
-    </head>
 
-    <body>
+<head>
+    <% include ../partials/header.ejs %>
+</head>
 
-        <nav style="margin-bottom:0px;" class="navbar navbar-default navbar-static-top navbar-inverse">
-            <div class="container">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        <div class="jumbotron text-center">
-            <div class="container">
-                <h1>Welcome to Recipe Tracker</h1>
-            </div>
-        </div>
+<body>
+    <nav style="margin-bottom:0px;" class="navbar navbar-default navbar-static-top navbar-inverse">
         <div class="container">
-            <div class="row">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="jumbotron text-center">
+        <div class="container">
+            <h1>Welcome to Recipe Tracker</h1>
+        </div>
+    </div>
+    <div class="container">
+        <div class="msg" id="msg">Error logging in or creating account</div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+
+                <h1>Sign In</h1>
+
                 <form class="form-signin" method="post" action="/login">
-                    <div class="col-md-6">
                     <div class="form-label-group my-2">
                         <label for="username">Username</label>
                         <input type="text" id="username" class="form-control" placeholder="Username" required="" autofocus="" name="username">
@@ -34,13 +39,46 @@
                         <input type="password" id="password" class="form-control" placeholder="Password" required="" name="password">
                     </div>
                     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                </form>
+            </div>
+
+            <div class="col-md-4">
+                <h1>Create an Account</h1>
+                <form class="form-signin" method="post" action="/createAccount">
+                    <div class="form-label-group my-2">
+                        <label for="displayName">Display Name</label>
+                        <input type="text" id="displayName" class="form-control" placeholder="Display Name" required="" autofocus="" name="displayName">
                     </div>
+                    <div class="form-label-group my-2">
+                        <label for="newUsername">Username</label>
+                        <input type="text" id="newUsername" class="form-control" placeholder="Username" required="" autofocus="" name="newUsername">
+                    </div>
+
+                    <div class="form-label-group my-2">
+                        <label for="newPassword">Password</label>
+                        <input type="password" id="newPassword" class="form-control" placeholder="Password" required="" name="newPassword">
+                    </div>
+                    <button class="btn btn-lg btn-success btn-block" type="submit">Create Account</button>
                 </form>
             </div>
         </div>
-        <!--    <% include ../partials/footer.ejs %>-->
-        <script src="ajax.js"></script>
-    </body>
+    </div>
+    <!--    <% include ../partials/footer.ejs %>-->
+    <script src="ajax.js"></script>
+
+    <script type="text/javascript">
+        // Get URL
+        var url = window.location.href;
+        // Get DIV
+        var msg = document.getElementById('msg');
+        // Check if URL contains the keyword
+        if( url.search( 'err' ) > 0 ) {
+            // Display the message
+            msg.style.display = "block";
+            window.history.pushState({}, document.title, "/" + "login");
+        }
+    </script>
+</body>
 
 
 </html>
